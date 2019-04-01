@@ -1,0 +1,8 @@
+{
+    "Jim Buffett":{"name":"Jim Buffett", "studentid":50, "takes":
+        ["Ser423 Mobile Computing","Ser321 Distributed Apps","Cse110 Programming I","Cse340 Language Design"]},
+    "James Burton":{"name":"James Burton", "studentid":77, "takes":
+        ["Ser423 Mobile Computing","Cse340 Language Design"]},
+    "Sally Smith":{"name":"Sally Smith", "studentid":105, "takes":
+        ["Cse445 Distributed Apps","Cse110 Programming I","Ser423 Mobile Computing"]}
+}
