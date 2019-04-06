@@ -13,18 +13,21 @@ class PlaceTableViewController: UITableViewController {
     
     var urlString:String = "http://127.0.0.1:8080"
     var places:[String]=[String]()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         NSLog("PlaceTableViewController.viewDidLoad was called")
+        
+//        UI Components
+        self.navigationItem.leftBarButtonItem = self.editButtonItem
+        let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action: #selector(PlaceTableViewController.addPlace))
+        self.navigationItem.rightBarButtonItem = addButton
         
         self.setURL()
         self.getPlaces()
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
-
-         self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
     override func didReceiveMemoryWarning() {
@@ -69,6 +72,72 @@ class PlaceTableViewController: UITableViewController {
                 
             }
         })
+    }
+    
+    // called with the Navigation Bar Add button (+) is clicked
+    @objc func addPlace() {
+        print("add button clicked")
+        //  query the user for the new place name and number. empty takes
+        let promptND = UIAlertController(title: "New Place", message: "Enter Place Information", preferredStyle: UIAlertControllerStyle.alert)
+        // if the user cancels, we don't want to add a place
+        promptND.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default, handler: nil))
+        // setup the OK action and provide a closure to be executed when/if OK selected
+        promptND.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { (action) -> Void in
+            let newPlaceName:String = (promptND.textFields?[0].text == "") ? "unknown" : (promptND.textFields?[0].text)!
+            let newPlaceDesc:String = (promptND.textFields?[1].text == "") ? "unknown" : (promptND.textFields?[1].text)!
+            let newPlaceCat:String = (promptND.textFields?[2].text == "") ? "unknown" : (promptND.textFields?[2].text)!
+            let newPlaceAddressTitle:String = (promptND.textFields?[3].text == "") ? "unknown" : (promptND.textFields?[3].text)!
+            let newPlaceAddressStreet:String = (promptND.textFields?[4].text == "") ? "unknown" : (promptND.textFields?[4].text)!
+            
+            // since didn't specify the keyboard, don't know whether id is empty, alpha, or numeric:
+            var newPlaceElev:Double = -1
+            if let myNumber = NumberFormatter().number(from: (promptND.textFields?[5].text)!) {
+                newPlaceElev = myNumber.doubleValue
+            }
+            let newPlaceLat:Double = -1
+            if let myNumber = NumberFormatter().number(from: (promptND.textFields?[6].text)!) {
+                newPlaceElev = myNumber.doubleValue
+            }
+            let newPlaceLong:Double = -1
+            if let myNumber = NumberFormatter().number(from: (promptND.textFields?[7].text)!) {
+                newPlaceElev = myNumber.doubleValue
+            }
+
+            let place:Place = Place(name: newPlaceName, description: newPlaceDesc, category: newPlaceCat, address_title: newPlaceAddressTitle, address_street: newPlaceAddressStreet, elevation: newPlaceElev, latitude: newPlaceLat, longitude: newPlaceLong)
+            let aConnect:PlaceCollectionStub = PlaceCollectionStub(urlString: self.urlString)
+            let _:Bool = aConnect.add(place: place, callback: { _,_  in
+                self.places.append(newPlaceName)
+                self.places = Array(self.places).sorted()
+                self.tableView.reloadData()
+            })
+        }))
+        
+        promptND.addTextField(configurationHandler: {(textField: UITextField!) in
+            textField.placeholder = "Name"
+        })
+        promptND.addTextField(configurationHandler: {(textField: UITextField!) in
+            textField.placeholder = "Description"
+        })
+        promptND.addTextField(configurationHandler: {(textField: UITextField!) in
+            textField.placeholder = "Category"
+        })
+        promptND.addTextField(configurationHandler: {(textField: UITextField!) in
+            textField.placeholder = "Address Title"
+        })
+        promptND.addTextField(configurationHandler: {(textField: UITextField!) in
+            textField.placeholder = "Address Street"
+        })
+        promptND.addTextField(configurationHandler: {(textField: UITextField!) in
+            textField.placeholder = "Elevation"
+        })
+        promptND.addTextField(configurationHandler: {(textField: UITextField!) in
+            textField.placeholder = "Latitude"
+        })
+        promptND.addTextField(configurationHandler: {(textField: UITextField!) in
+            textField.placeholder = "Longitude"
+        })
+
+        present(promptND, animated: true, completion: nil)
     }
     
     // MARK: - Table view data source
