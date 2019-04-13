@@ -94,13 +94,13 @@ class PlaceTableViewController: UITableViewController {
             if let myNumber = NumberFormatter().number(from: (promptND.textFields?[5].text)!) {
                 newPlaceElev = myNumber.doubleValue
             }
-            let newPlaceLat:Double = -1
+            var newPlaceLat:Double = -1
             if let myNumber = NumberFormatter().number(from: (promptND.textFields?[6].text)!) {
-                newPlaceElev = myNumber.doubleValue
+                newPlaceLat = myNumber.doubleValue
             }
-            let newPlaceLong:Double = -1
+            var newPlaceLong:Double = -1
             if let myNumber = NumberFormatter().number(from: (promptND.textFields?[7].text)!) {
-                newPlaceElev = myNumber.doubleValue
+                newPlaceLong = myNumber.doubleValue
             }
 
             let place:Place = Place(name: newPlaceName, description: newPlaceDesc, category: newPlaceCat, address_title: newPlaceAddressTitle, address_street: newPlaceAddressStreet, elevation: newPlaceElev, latitude: newPlaceLat, longitude: newPlaceLong)

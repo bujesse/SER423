@@ -82,7 +82,7 @@ public class Place {
 //    }
 //
     func toDict() -> [String:Any] {
-        let dict:[String:Any] = ["name": name, "description": description, "category": category, "address_title": address_title, "address_street": address_street, "elevation": elevation, "latitude": latitude, "longitude": longitude] as [String : Any]
+        let dict:[String:Any] = ["name": name, "description": description, "category": category, "address-title": address_title, "address-street": address_street, "elevation": elevation, "latitude": latitude, "longitude": longitude] as [String : Any]
         return dict
     }
 }
