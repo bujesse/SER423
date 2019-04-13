@@ -8,17 +8,30 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextFieldDelegate, UINavigationControllerDelegate {
     
     var urlString:String = "http://127.0.0.1:8080"
     var places:[String]=[String]()
+    var selectedPlace:String = "unknown"
+
+    @IBOutlet weak var nameTF: UITextField!
+    @IBOutlet weak var descTF: UITextField!
+    @IBOutlet weak var categoryTF: UITextField!
+    @IBOutlet weak var addressTitleTF: UITextField!
+    @IBOutlet weak var addressStreetTF: UITextField!
+    @IBOutlet weak var elevationTF: UITextField!
+    @IBOutlet weak var latitudeTF: UITextField!
+    @IBOutlet weak var longitudeTF: UITextField!
+    
+    @IBOutlet weak var saveBtn: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         NSLog("ViewController.viewDidLoad was called")
+        saveBtn.layer.cornerRadius = 15  // round the button
         
         self.setURL()
-        self.getPlaces()
+        self.callGetNPopulateUIFields(self.selectedPlace)
     }
 
     override func didReceiveMemoryWarning() {
@@ -37,34 +50,58 @@ class ViewController: UIViewController {
         }
     }
 
-    func getPlaces() {
-        let aConnect:PlaceCollectionStub = PlaceCollectionStub(urlString: self.urlString)
-        let _:Bool = aConnect.getNames(callback: { (res: String, err: String?) -> Void in
+    func callGetNPopulateUIFields(_ name: String){
+        let aConnect:PlaceCollectionStub = PlaceCollectionStub(urlString: urlString)
+        let _:Bool = aConnect.get(name: name, callback: { (res: String, err: String?) -> Void in
             if err != nil {
                 NSLog(err!)
             }else{
                 NSLog(res)
-                if let data: Data = res.data(using: String.Encoding.utf8) {
+                if let data: Data = res.data(using: String.Encoding.utf8){
                     do{
                         let dict = try JSONSerialization.jsonObject(with: data,options:.mutableContainers) as?[String:AnyObject]
-                        self.places = (dict!["result"] as? [String])!
-                        self.places = Array(self.places).sorted()
-//                        self.studSelectTF.text = ((self.students.count>0) ? self.students[0] : "")
-//                        self.studentPicker.reloadAllComponents()
-                        if self.places.count > 0 {
-//                            self.callGetNPopulatUIFields(self.students[0])
-                            NSLog("Got places successfully")
-                            for element in self.places {
-                                print(element)
-                            }
-                        }
+                        let aDict:[String:AnyObject] = (dict!["result"] as? [String:AnyObject])!
+                        let aPlace:Place = Place(dict: aDict)
+                        
+                        self.nameTF.text = aPlace.name
+                        self.descTF.text = aPlace.description
+                        self.categoryTF.text = aPlace.category
+                        self.addressTitleTF.text = aPlace.address_title
+                        self.addressStreetTF.text = aPlace.address_street
+                        self.elevationTF.text = String(aPlace.elevation)
+                        self.latitudeTF.text = String(aPlace.latitude)
+                        self.longitudeTF.text = String(aPlace.longitude)
                     } catch {
-                        print("unable to convert to dictionary")
+                        NSLog("unable to convert to dictionary")
                     }
                 }
-                
             }
-        })  // end of method call to getNames
+        })
+    }
+
+    // touch events on this view
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.nameTF.resignFirstResponder()
+    }
+    
+    @IBAction func saveBtnClicked(_ sender: Any) {
+        print("Save Button Clicked")
+        print(self.nameTF.text!)
+    }
+    
+    // MARK: -- UITextFieldDelegate Method
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.nameTF.resignFirstResponder()
+        return true
+    }
+
+//  Called after clicking back, but before loading the table view, so reload that data with this view's data
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool){
+        print("entered navigationController willShow viewController")
+        if let controller = viewController as? PlaceTableViewController {
+            controller.places = self.places
+            controller.tableView.reloadData()
+        }
     }
 
 }

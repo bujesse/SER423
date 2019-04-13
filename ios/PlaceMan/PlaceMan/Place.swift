@@ -57,11 +57,16 @@ public class Place {
         }
     }
 
-//    init(dict: [String:Any]){
-//        self.name = dict["name"] as! String
-//        self.studentid = dict["studentid"] as! Int
-//        self.takes = dict["takes"] as! [String]
-//    }
+    init(dict: [String:Any]){
+        self.name = dict["name"] as! String
+        self.description = (dict["description"] as! String)
+        self.category = (dict["category"] as! String)
+        self.address_title = (dict["address-title"] as! String)
+        self.address_street = (dict["address-street"] as! String)
+        self.elevation = (dict["elevation"] as! Double)
+        self.latitude = (dict["latitude"] as! Double)
+        self.longitude = (dict["longitude"] as! Double)
+    }
 
 //    func toJsonString() -> String {
 //        var jsonStr = "";
