@@ -90,19 +90,19 @@ public class PlaceCollectionStub {
         }
         return ret
     }
-//
-//    func remove(studentName: String, callback: @escaping (String, String?) -> Void) -> Bool{
-//        var ret:Bool = false
-//        StudentCollectionStub.id = StudentCollectionStub.id + 1
-//        do {
-//            let dict:[String:Any] = ["jsonrpc":"2.0", "method":"remove", "params":[studentName], "id":StudentCollectionStub.id]
-//            let reqData:Data = try JSONSerialization.data(withJSONObject: dict, options: JSONSerialization.WritingOptions(rawValue: 0))
-//            self.asyncHttpPostJSON(url: self.url, data: reqData, completion: callback)
-//            ret = true
-//        } catch let error as NSError {
-//            print(error)
-//        }
-//        return ret
-//    }
+
+    func remove(placeName: String, callback: @escaping (String, String?) -> Void) -> Bool{
+        var ret:Bool = false
+        PlaceCollectionStub.id = PlaceCollectionStub.id + 1
+        do {
+            let dict:[String:Any] = ["jsonrpc":"2.0", "method":"remove", "params":[placeName], "id":PlaceCollectionStub.id]
+            let reqData:Data = try JSONSerialization.data(withJSONObject: dict, options: JSONSerialization.WritingOptions(rawValue: 0))
+            self.asyncHttpPostJSON(url: self.url, data: reqData, completion: callback)
+            ret = true
+        } catch let error as NSError {
+            print(error)
+        }
+        return ret
+    }
     
 }
