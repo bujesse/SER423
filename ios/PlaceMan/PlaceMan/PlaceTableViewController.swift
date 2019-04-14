@@ -2,8 +2,10 @@
 //  PlaceTableViewController.swift
 //  PlaceMan
 //
-//  Created by Jesse Bu on 3/31/19.
+//  Tim Lindquist and ASU instructors have the right to build and evaluate the software package for the purpose of determining grade and program assessment
 //  Copyright © 2019 Jesse Bu. All rights reserved.
+//  @author Jesse Bu mailto:jbbu1@asu.edu.
+//  @version March 31, 2019
 //
 
 import UIKit
@@ -25,14 +27,10 @@ class PlaceTableViewController: UITableViewController {
         
         self.setURL()
         self.getPlaces()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     func setURL () {
@@ -160,14 +158,6 @@ class PlaceTableViewController: UITableViewController {
         return cell
     }
 
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let selectedPlace:String = self.places[indexPath.row]
@@ -180,21 +170,6 @@ class PlaceTableViewController: UITableViewController {
         }
     }
 
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "PlaceDetail" {
             let viewController:ViewController = segue.destination as! ViewController

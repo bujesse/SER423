@@ -2,15 +2,17 @@
 //  AppDelegate.swift
 //  PlaceMan
 //
-//  Created by Jesse Bu on 3/31/19.
+//  Tim Lindquist and ASU instructors have the right to build and evaluate the software package for the purpose of determining grade and program assessment
 //  Copyright © 2019 Jesse Bu. All rights reserved.
+//  @author Jesse Bu mailto:jbbu1@asu.edu.
+//  @version March 31, 2019
 //
 
 import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+ 
     var window: UIWindow?
 
 

@@ -2,8 +2,10 @@
 //  ViewController.swift
 //  PlaceMan
 //
-//  Created by Jesse Bu on 3/31/19.
+//  Tim Lindquist and ASU instructors have the right to build and evaluate the software package for the purpose of determining grade and program assessment
 //  Copyright © 2019 Jesse Bu. All rights reserved.
+//  @author Jesse Bu mailto:jbbu1@asu.edu.
+//  @version March 31, 2019
 //
 
 import UIKit
@@ -23,15 +25,22 @@ class ViewController: UIViewController, UITextFieldDelegate, UINavigationControl
     @IBOutlet weak var latitudeTF: UITextField!
     @IBOutlet weak var longitudeTF: UITextField!
     
-    @IBOutlet weak var saveBtn: UIButton!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         NSLog("ViewController.viewDidLoad was called")
-        saveBtn.layer.cornerRadius = 15  // round the button
         
         self.setURL()
         self.callGetNPopulateUIFields(self.selectedPlace)
+        
+        // Non-editable
+        self.nameTF.isUserInteractionEnabled = false
+        self.descTF.isUserInteractionEnabled = false
+        self.categoryTF.isUserInteractionEnabled = false
+        self.addressTitleTF.isUserInteractionEnabled = false
+        self.addressStreetTF.isUserInteractionEnabled = false
+        self.elevationTF.isUserInteractionEnabled = false
+        self.latitudeTF.isUserInteractionEnabled = false
+        self.longitudeTF.isUserInteractionEnabled = false
     }
 
     override func didReceiveMemoryWarning() {
@@ -83,12 +92,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UINavigationControl
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.nameTF.resignFirstResponder()
     }
-    
-    @IBAction func saveBtnClicked(_ sender: Any) {
-        print("Save Button Clicked")
-        print(self.nameTF.text!)
-    }
-    
+
     // MARK: -- UITextFieldDelegate Method
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.nameTF.resignFirstResponder()
